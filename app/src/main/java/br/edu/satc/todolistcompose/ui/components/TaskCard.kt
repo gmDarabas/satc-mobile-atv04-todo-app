@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
@@ -30,7 +29,8 @@ import br.edu.satc.todolistcompose.ui.theme.ToDoListComposeTheme
 fun TaskCard(
     title: String = "Task title",
     description: String = "Task description",
-    complete: Boolean = false
+    complete: Boolean = false,
+    onCompleteTask: (complete: Boolean) -> Unit
 ) {
     val taskTitle by remember {
         mutableStateOf(title)
@@ -41,6 +41,13 @@ fun TaskCard(
     var taskComplete by remember {
         mutableStateOf(complete)
     }
+
+//    val db = Room.databaseBuilder(
+//        applicationContext,
+//        AppDatabase::class.java, "br.edu.satc.contatosapp"
+//    )
+//        .allowMainThreadQueries() // allows in MainActivity
+//        .build()
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -64,7 +71,7 @@ fun TaskCard(
                         fontFamily = FontFamily.Serif
                     )
                 )
-                Checkbox(checked = taskComplete, onCheckedChange = { taskComplete = it })
+                Checkbox(checked = taskComplete, onCheckedChange = { taskComplete = it; onCompleteTask(it) })
             }
             Text(text = taskDescription, fontSize = 12.sp)
         }
@@ -75,6 +82,6 @@ fun TaskCard(
 @Composable
 fun TaskCardPreview() {
     ToDoListComposeTheme {
-        TaskCard()
+        TaskCard(){}
     }
 }
